@@ -1,0 +1,42 @@
+<div *ngIf="enquiry">
+    <h2>Enquiry Details</h2>
+    <p><strong>Enquiry ID:</strong> {{enquiry.enquiryId}}</p>
+    <p><strong>Initial Balance:</strong> {{enquiry.initialBalance}}</p>
+    <p><strong>Email:</strong> {{enquiry.email}}</p>
+    <p><strong>First Name:</strong> {{enquiry.firstName}}</p>
+    <p><strong>Last Name:</strong> {{enquiry.lastName}}</p>
+    <p><strong>Address:</strong> {{enquiry.addr}}</p>
+    <p><strong>PAN Number:</strong> {{enquiry.panNo}}</p>
+    <p><strong>Aadhaar Number:</strong> {{enquiry.aadhaarNo}}</p>
+    <p><strong>Phone Number:</strong> {{enquiry.phoneNo}}</p>
+    <p><strong>City:</strong> {{enquiry.city}}</p>
+    <p><strong>State:</strong> {{enquiry.stat}}</p>
+    <p><strong>Country:</strong> {{enquiry.country}}</p>
+    <p><strong>Pin Code:</strong> {{enquiry.pinCode}}</p>
+    <p><strong>Marital Status:</strong> {{enquiry.maritalStatus}}</p>
+    <p><strong>Gender:</strong> {{enquiry.gender}}</p>
+    <p><strong>Age:</strong> {{enquiry.age}}</p>
+    <p><strong>Account Type:</strong> {{enquiry.accType}}</p>
+    <p><strong>Guardian Name:</strong> {{enquiry.guardianName}}</p>
+    <p><strong>Guardian Account:</strong> {{enquiry.guardianAccount}}</p>
+    <p><strong>Guardian Phone Number:</strong> {{enquiry.guardianPhoneNo}}</p>
+    <p><strong>Guardian Email:</strong> {{enquiry.guardianEmail}}</p>
+    <p><strong>Guardian Aadhaar:</strong> {{enquiry.guardianAadhaar}}</p>
+    <p><strong>Is Active:</strong> {{enquiry.isActive}}</p>
+  </div>
+  
+
+    <h2>Associated Documents</h2>
+    <ul>
+      <li *ngFor="let document of documents">
+        <p><strong>Document ID:</strong> {{document.docModel.docId}}</p>
+        <p><strong>Enquiry ID:</strong> {{document.docModel.enqId}}</p>
+        <p><strong>Customer ID:</strong> {{document.docModel.custId}}</p>
+        <p><strong>Document Type:</strong> {{document.docModel.docType}}</p>
+        <p><strong>Is Approved:</strong> {{document.docModel.isApproved}}</p>
+        <!-- Add more fields as needed -->
+        <img *ngIf="document.imageData" [src]="document.imageData" alt="Document Image" height="200vh">
+      </li>
+    </ul>
+  
+  
