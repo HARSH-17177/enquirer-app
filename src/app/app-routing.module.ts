@@ -6,7 +6,7 @@ import { EnquirerUpdateComponent } from './Enquirer/enquirer-update.component';
 
 const routes: Routes = [
   {path:'enquirer',component:EnquirerAddComponent},
-  {path:'viewenquiry/:id',component:EnquirerViewComponent},
+  {path:'viewenquiry',component:EnquirerViewComponent},
   {path:'updateenquiry/:id',component:EnquirerUpdateComponent}
 ];
 

@@ -8,20 +8,23 @@ import { EnquirerAddComponent } from './Enquirer/enquirer-add.component';
 import { HttpClientModule } from '@angular/common/http';
 import { EnquirerViewComponent } from './Enquirer/enquirer-view.component';
 import { EnquirerUpdateComponent } from './Enquirer/enquirer-update.component';
+import { LoadingSpinnerComponent } from './Enquirer/loading-spinner.component';
 
 @NgModule({
   declarations: [
     AppComponent,
   EnquirerAddComponent,
   EnquirerViewComponent,
-  EnquirerUpdateComponent
+  EnquirerUpdateComponent,
+  LoadingSpinnerComponent
   ],
   imports: [
     BrowserModule,
     ReactiveFormsModule,
     HttpClientModule,
     FormsModule,
-    AppRoutingModule
+    AppRoutingModule,
+
   ],
   providers: [],
   bootstrap: [AppComponent]

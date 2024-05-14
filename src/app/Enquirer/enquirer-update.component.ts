@@ -174,7 +174,7 @@ export class EnquirerUpdateComponent implements OnInit {
 
                 // Update document
                 this.service.updateDocument(updatedDocumentModel).subscribe(() => {
-                  // Handle success response for document update
+                
                 }, (error: any) => {
                   console.error('Error updating document:', error);
                 });

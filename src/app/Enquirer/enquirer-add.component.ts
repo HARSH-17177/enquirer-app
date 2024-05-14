@@ -14,7 +14,7 @@ export class EnquirerAddComponent {
   enquiryForm: any;
   isLoading = false;
   enquirerModel: Enquirer =  <Enquirer>{};
-  documentModel: DocModel = new DocModel();
+  documentModel: DocModel[] = [];
   enqid: number = 0;
 
   constructor(
@@ -48,25 +48,28 @@ export class EnquirerAddComponent {
       GuardianAadhaar: [''],
       IsActive: [''],
 
-      DocType: [''],
-      DocFile: [null, Validators.required] 
+      DocType1: [''],
+      DocFile1: [null, Validators.required],
+      DocType2: [''],
+      DocFile2: [null, Validators.required],
+      DocType3: [''],
+      DocFile3: [null, Validators.required]
     });
   }
 
   get f() { return this.enquiryForm.controls; }
-  onFileChange(event:any) {
+  onFileChange(event: any, index: number) {
     if (event.target.files && event.target.files.length) {
       const [file] = event.target.files;
       if (!file.type.startsWith('image')) {
-        this.enquiryForm.get('DocFile').setErrors({ required: true });
-     
+        this.enquiryForm.get(`DocFile${index}`).setErrors({ required: true });
       } else {
-        this.enquiryForm.patchValue({ DocFile: file });
-   
+        this.enquiryForm.patchValue({ [`DocFile${index}`]: file });
       }
     }
   }
   submit() {
+    this.isLoading=true;
     // Extract Enquirer data from the form
     this.enquirerModel = {
       EnquiryId: 0,
@@ -95,56 +98,63 @@ export class EnquirerAddComponent {
     };
   
     // Extract DocModel data from the form
-    this.documentModel = {
-      DocId: 0,
-      EnqId: 0, // Will be updated later
-      CustId: 0, // Update if necessary
-      DocType: this.f.DocType.value,
-      IsApproved: false,
-      DocFile: this.f.DocFile.value
-    };
+    for (let i = 1; i <= 3; i++) {
+      const docTypeControlName = `DocType${i}`;
+      const docFileControlName = `DocFile${i}`;
+
+      const docModel: DocModel = {
+        DocId: 0,
+        EnqId: 0, // Will be updated later
+        CustId: 0, // Update if necessary
+        DocType: this.enquiryForm.get(docTypeControlName).value,
+        IsApproved: false,
+        DocFile: this.enquiryForm.get(docFileControlName).value
+      };
+
+      this.documentModel.push(docModel);
+    }
   
     this.isLoading = true;
-    this.service.createEnquiry(this.enquirerModel).subscribe((enquiryResponse: any) => {
+     this.service.createEnquiry(this.enquirerModel).subscribe((enquiryResponse: any) => {
       if (enquiryResponse && enquiryResponse.enqId && enquiryResponse.email) {
         console.log('Enquiry created:', enquiryResponse);
         const enquiryId = enquiryResponse.enqId;
-  
-        // Update document model with the generated enquiry ID
-        const documentModel = {
-          DocId: 0,
-          EnqId: enquiryId,
-          CustId:0,
-          IsApproved:false,
-          DocType: this.enquiryForm.get('DocType').value,
-          DocFile: this.enquiryForm.get('DocFile').value
-        };
-  
-        // Submit document form
-        this.service.uploadDocument(documentModel).subscribe(() => {
-          console.log('Document uploaded successfully');
-          // Handle success
-          this.isLoading = false;
-  
-          // Send email
-          const mailModel = {
-            enquirerId: enquiryResponse.enqId.toString(),
-            receiverMail: enquiryResponse.email.toString()
-          };
-        
-          this.service.sendMail(mailModel).subscribe(() => {
-            console.log('Mail sent successfully');
-            alert('Enquiry submitted successfully');
+
+        // Update each document model with the generated enquiry ID
+        this.documentModel.forEach((docModel, index) => {
+          docModel.EnqId = enquiryId;
+
+          // Upload each document
+          this.service.uploadDocument(docModel).subscribe(() => {
+            console.log(`Document ${index + 1} uploaded successfully`);
+
+            // Handle success if all documents are uploaded
+            if (index === this.documentModel.length - 1) {
+             
+
+              // Send email
+              const mailModel = {
+                enquirerId: enquiryResponse.enqId.toString(),
+                receiverMail: enquiryResponse.email.toString()
+              };
+
+              this.service.sendMail(mailModel).subscribe(() => {
+                console.log('Mail sent successfully');
+                this.isLoading = false;
+                this.enquiryForm.reset();
+                alert('Enquiry submitted successfully');
+                
+              }, error => {
+                console.error('Error sending mail:', error);
+                alert('Enquiry submitted successfully, but there was an error sending email');
+              });
+            }
           }, error => {
-            console.error('Error sending mail:', error);
-            alert('Enquiry submitted successfully, but there was an error sending email');
+            console.error(`Error uploading document ${index + 1}:`, error);
+            this.isLoading = false;
           });
-  
-        }, error => {
-          console.error('Error uploading document:', error);
-          this.isLoading = false;
         });
-  
+      
       } else {
         console.error('Invalid response from server:', enquiryResponse);
         this.isLoading = false;

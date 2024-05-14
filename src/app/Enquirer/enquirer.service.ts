@@ -5,7 +5,7 @@ import { Enquirer } from '../models/enquirer';
 import { DocModel } from '../models/doc-model';
 import { Enquirermail } from '../models/enquirermail';
 
-const enquirerUrl ="http://localhost:5282";
+const enquirerUrl ="https://enquirerserviceabrg.azurewebsites.net";
 const mailUrl ="https://mailerserviceabrg.azurewebsites.net/SendEnquirerMail"
 
 @Injectable({
