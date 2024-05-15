@@ -5,138 +5,198 @@
     <div class="card-body">
         <form [formGroup]="enquiryForm" (ngSubmit)="submit()" enctype="multipart/form-data">
             <input type="hidden" id="EnquiryId" formControlName="EnquiryId">
-            <div class="form-group">
-              <label for="InitialBalance">Initial Balance</label>
-              <input type="text" id="InitialBalance" formControlName="InitialBalance" class="form-control">
-          </div>
-          <div class="form-group">
-            <label for="Email">Email</label>
-            <input type="text" id="Email" formControlName="Email" class="form-control">
-        </div>
-            <div class="form-group">
-                <label for="FirstName">First Name</label>
-                <input type="text" id="FirstName" formControlName="FirstName" class="form-control">
-                <div *ngIf="f.FirstName.invalid && (f.FirstName.dirty || f.FirstName.touched)" class="alert alert-danger">
-                    <div *ngIf="f.FirstName.errors?.['required']">First Name is required.</div>
-                </div>
-            </div>
-            <div class="form-group">
-                <label for="LastName">Last Name</label>
-                <input type="text" id="LastName" formControlName="LastName" class="form-control">
-                <div *ngIf="f.LastName.invalid && (f.LastName.dirty || f.LastName.touched)" class="alert alert-danger">
-                    <div *ngIf="f.LastName.errors?.['required']">Last Name is required.</div>
-                </div>
-            </div>
-            <div class="form-group">
-                <label for="Addr">Address</label>
-                <input type="text" id="Addr" formControlName="Addr" class="form-control">
-            </div>
-            <div class="form-group">
-                <label for="PanNo">PAN Number</label>
-                <input type="text" id="PanNo" formControlName="PanNo" class="form-control">
-            </div>
-            <div class="form-group">
-                <label for="AadhaarNo">Aadhaar Number</label>
-                <input type="text" id="AadhaarNo" formControlName="AadhaarNo" class="form-control">
-            </div>
-            <div class="form-group">
-                <label for="PhoneNo">Phone Number</label>
-                <input type="text" id="PhoneNo" formControlName="PhoneNo" class="form-control">
-            </div>
-            <div class="form-group">
-                <label for="City">City</label>
-                <input type="text" id="City" formControlName="City" class="form-control">
-            </div>
-            <div class="form-group">
-                <label for="Stat">State</label>
-                <input type="text" id="Stat" formControlName="Stat" class="form-control">
-            </div>
-            <div class="form-group">
-                <label for="Country">Country</label>
-                <input type="text" id="Country" formControlName="Country" class="form-control">
-            </div>
-            <div class="form-group">
-                <label for="PinCode">Pin Code</label>
-                <input type="text" id="PinCode" formControlName="PinCode" class="form-control">
-            </div>
-            <div class="form-group">
-                <label for="MaritalStatus">Marital Status</label>
-                <input type="text" id="MaritalStatus" formControlName="MaritalStatus" class="form-control">
-            </div>
-            <div class="form-group">
-                <label for="Gender">Gender</label>
-                <input type="text" id="Gender" formControlName="Gender" class="form-control">
-            </div>
-            <div class="form-group">
-                <label for="Age">Age</label>
-                <input type="number" id="Age" formControlName="Age" class="form-control">
-            </div>
-            <div class="form-group">
-                <label for="AccType">Account Type</label>
-                <input type="number" id="AccType" formControlName="AccType" class="form-control">
-            </div>
-            <div class="form-group" *ngIf="f.Age.value <= 18">
-              <label for="GuardianName">Guardian Name</label>
-              <input type="text" id="GuardianName" formControlName="GuardianName" class="form-control">
-          </div>
-          <div class="form-group" *ngIf="f.Age.value <= 18">
-              <label for="GuardianAccount">Guardian Account</label>
-              <input type="text" id="GuardianAccount" formControlName="GuardianAccount" class="form-control">
-          </div>
-          <div class="form-group" *ngIf="f.Age.value <= 18">
-              <label for="GuardianPhoneNo">Guardian Phone Number</label>
-              <input type="text" id="GuardianPhoneNo" formControlName="GuardianPhoneNo" class="form-control">
-          </div>
-          <div class="form-group" *ngIf="f.Age.value <= 18">
-              <label for="GuardianEmail">Guardian Email</label>
-              <input type="text" id="GuardianEmail" formControlName="GuardianEmail" class="form-control">
-          </div>
-          <div class="form-group" *ngIf="f.Age.value <= 18">
-              <label for="GuardianAadhaar">Guardian Aadhaar Number</label>
-              <input type="text" id="GuardianAadhaar" formControlName="GuardianAadhaar" class="form-control">
-          </div>
-            <div class="form-group">
-                <label for="IsActive">Is Active</label>
-                <input type="number" id="IsActive" formControlName="IsActive" class="form-control">
-            </div>
+            <div class="container">
+                <div class="row">
+                    <div class="form-group col-4">
+                        <label for="Addr">InitialBalance</label>
+                        <input type="text" id="InitialBalance" formControlName="InitialBalance" class="form-control">
+                    </div>
+                    <div class="form-group col-4">
+                        <label for="Addr">Email</label>
+                        <input type="text" id="Email" formControlName="Email" class="form-control">
+                    </div>
 
-          
-                <div class="form-group">
-                    <label for="DocType1">Document Type 1</label>
-                    <input type="text" id="DocType1" formControlName="DocType1" class="form-control">
-                  </div>
-                  
-                  <div class="form-group">
-                    <label for="DocFile1">Upload Document 1</label>
-                    <input type="file" id="DocFile1" formControlName="DocFile1" class="form-control-file" (change)="onFileChange($event, 1)">
-                  </div>
-                  <div class="form-group">
-                    <img [src]="imageData[0]" *ngIf="imageData[0]" width="200" height="150">
-                  </div>
-                  <div class="form-group">
-                    <label for="DocType2">Document Type 2</label>
-                    <input type="text" id="DocType2" formControlName="DocType2" class="form-control">
-                  </div>
-                  
-                  <div class="form-group">
-                    <label for="DocFile2">Upload Document 2</label>
-                    <input type="file" id="DocFile2" formControlName="DocFile2" class="form-control-file" (change)="onFileChange($event, 2)">
-                  </div>
-                  <div class="form-group">
-                    <img [src]="imageData[1]" *ngIf="imageData[1]" width="200" height="150">
-                  </div>
-                  <div class="form-group">
-                    <label for="DocType3">Document Type 3</label>
-                    <input type="text" id="DocType3" formControlName="DocType3" class="form-control">
-                  </div>
-                  
-                  <div class="form-group">
-                    <label for="DocFile3">Upload Document 3</label>
-                    <input type="file" id="DocFile3" formControlName="DocFile3" class="form-control-file" (change)="onFileChange($event, 3)">
-                  </div>
-                <div class="form-group">
-                  <img [src]="imageData[2]" *ngIf="imageData[2]" width="200" height="150">
+
+                    <div class="form-group col-4">
+                        <label for="FirstName">First Name</label>
+                        <input type="text" id="FirstName" formControlName="FirstName" class="form-control">
+                        <div *ngIf="f.FirstName.invalid && (f.FirstName.dirty || f.FirstName.touched)" class="alert alert-danger">
+                            <div *ngIf="f.FirstName.errors?.['required']">First Name is required.</div>
+                        </div>
+                    </div>
+    
                 </div>
+            </div>
+      
+   <div class="container">
+    <div class="row">
+        <div class="form-group col-4">
+            <label for="LastName">Last Name</label>
+            <input type="text" id="LastName" formControlName="LastName" class="form-control">
+            <div *ngIf="f.LastName.invalid && (f.LastName.dirty || f.LastName.touched)" class="alert alert-danger">
+                <div *ngIf="f.LastName.errors?.['required']">Last Name is required.</div>
+            </div>
+        </div>
+        <div class="form-group col-4">
+            <label for="Addr">Address</label>
+            <input type="text" id="Addr" formControlName="Addr" class="form-control">
+        </div>
+        <div class="form-group col-4">
+            <label for="PanNo">PAN Number</label>
+            <input type="text" id="PanNo" formControlName="PanNo" class="form-control">
+        </div>
+    </div>
+   </div>
+     
+          <div class="container">
+            <div class="row">
+                <div class="form-group col-4">
+                    <label for="AadhaarNo">Aadhaar Number</label>
+                    <input type="text" id="AadhaarNo" formControlName="AadhaarNo" class="form-control">
+                </div>
+                <div class="form-group col-4">
+                    <label for="PhoneNo">Phone Number</label>
+                    <input type="text" id="PhoneNo" formControlName="PhoneNo" class="form-control">
+                </div>
+                <div class="form-group col-4">
+                    <label for="City">City</label>
+                    <input type="text" id="City" formControlName="City" class="form-control">
+                </div>
+            </div>
+          </div>
+            
+<div class="container">
+<div class="row">
+    <div class="form-group col-4">
+        <label for="Stat">State</label>
+        <input type="text" id="Stat" formControlName="Stat" class="form-control">
+    </div>
+    <div class="form-group col-4">
+        <label for="Country">Country</label>
+        <input type="text" id="Country" formControlName="Country" class="form-control">
+    </div>
+    <div class="form-group col-4">
+        <label for="PinCode">Pin Code</label>
+        <input type="text" id="PinCode" formControlName="PinCode" class="form-control">
+    </div>
+</div>
+</div>
+
+<div class="container">
+<div class="row">
+    <div class="form-group col-4">
+        <label for="MaritalStatus">Marital Status</label>
+        <input type="text" id="MaritalStatus" formControlName="MaritalStatus" class="form-control">
+    </div>
+    <div class="form-group col-4">
+        <label for="Gender">Gender</label>
+        <input type="text" id="Gender" formControlName="Gender" class="form-control">
+    </div>
+    <div class="form-group col-4">
+        <label for="Age">Age</label>
+        <input type="number" id="Age" formControlName="Age" class="form-control">
+    </div>
+</div>
+</div>
+
+<div class="container">
+<div class="row">
+    <div class="form-group col-4">
+        <label for="AccType">Account Type</label>
+        <input type="number" id="AccType" formControlName="AccType" class="form-control">
+    </div>
+    <div class="form-group col-4" *ngIf="f.Age.value <= 18">
+      <label for="GuardianName">Guardian Name</label>
+      <input type="text" id="GuardianName" formControlName="GuardianName" class="form-control">
+  </div>
+  <div class="form-group col-4" *ngIf="f.Age.value <= 18">
+      <label for="GuardianAccount">Guardian Account</label>
+      <input type="text" id="GuardianAccount" formControlName="GuardianAccount" class="form-control">
+  </div>
+</div>
+</div>
+           
+     <div class="container">
+        <div class="row">
+            <div class="form-group col-4" *ngIf="f.Age.value <= 18">
+                <label for="GuardianPhoneNo">Guardian Phone Number</label>
+                <input type="text" id="GuardianPhoneNo" formControlName="GuardianPhoneNo" class="form-control">
+            </div>
+            <div class="form-group col-4" *ngIf="f.Age.value <= 18">
+                <label for="GuardianEmail">Guardian Email</label>
+                <input type="text" id="GuardianEmail" formControlName="GuardianEmail" class="form-control">
+            </div>
+            <div class="form-group col-4" *ngIf="f.Age.value <= 18">
+                <label for="GuardianAadhaar">Guardian Aadhaar Number</label>
+                <input type="text" id="GuardianAadhaar" formControlName="GuardianAadhaar" class="form-control">
+            </div>
+        </div>
+     </div>     
+          
+         
+          <div class="container">
+            <div class="row">
+                <div class="form-group col-3">
+                    <label for="IsActive">Is Active</label>
+                    <input type="number" id="IsActive" formControlName="IsActive" class="form-control">
+                </div>
+      
+      
+      
+              
+            </div>
+          </div>
+
+          <div class="container">
+            <div class="row">
+                <div class="col-4">
+                    <div class="form-group">
+                        <label for="DocType1">Document Type 1</label>
+                        <input type="text" id="DocType1" formControlName="DocType1" class="form-control">
+                      </div>
+                      
+                      <div class="form-group">
+                        <label for="DocFile1">Upload Document 1</label>
+                        <input type="file" id="DocFile1" formControlName="DocFile1" class="form-control-file" (change)="onFileChange($event, 1)">
+                      </div>
+                      <div class="form-group">
+                        <img [src]="imageData[0]" *ngIf="imageData[0]" width="200" height="150">
+                      </div>
+                </div>
+                <div class="col-4">
+                    <div class="form-group">
+                        <label for="DocType2">Document Type 2</label>
+                        <input type="text" id="DocType2" formControlName="DocType2" class="form-control">
+                      </div>
+                      
+                      <div class="form-group">
+                        <label for="DocFile2">Upload Document 2</label>
+                        <input type="file" id="DocFile2" formControlName="DocFile2" class="form-control-file" (change)="onFileChange($event, 2)">
+                      </div>
+                      <div class="form-group">
+                        <img [src]="imageData[1]" *ngIf="imageData[1]" width="200" height="150">
+                      </div>
+                </div>
+                <div class="col-4">
+                    <div class="form-group">
+                        <label for="DocType3">Document Type 3</label>
+                        <input type="text" id="DocType3" formControlName="DocType3" class="form-control">
+                      </div>
+                      
+                      <div class="form-group">
+                        <label for="DocFile3">Upload Document 3</label>
+                        <input type="file" id="DocFile3" formControlName="DocFile3" class="form-control-file" (change)="onFileChange($event, 3)">
+                      </div>
+                    <div class="form-group">
+                      <img [src]="imageData[2]" *ngIf="imageData[2]" width="200" height="150">
+                    </div>
+                </div>
+            </div>
+          </div>
+          
+             
+                
+        
         
    
             <div class="form-group text-center">
