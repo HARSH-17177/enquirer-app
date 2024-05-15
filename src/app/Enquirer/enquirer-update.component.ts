@@ -14,9 +14,9 @@ export class EnquirerUpdateComponent implements OnInit {
   enquiryForm: any;
   isLoading = false;
   enquirerModel: Enquirer = <Enquirer>{};
-  documentModel: DocModel = new DocModel();
+  documentModels: DocModel[] = []; // Array to store multiple documents
   enqid: number = 0;
-  imageData: any;
+  imageData: any[] = []; // Array to store image data for each document
 
   constructor(
     private fb: FormBuilder,
@@ -48,20 +48,27 @@ export class EnquirerUpdateComponent implements OnInit {
       GuardianEmail: [''],
       GuardianAadhaar: [''],
       IsActive: [''],
-      DocType: [''],
-      DocFile: [null]
+      
+      //  DocType: [''], 
+      //  DocFile: [null] 
+      DocType1: [''],
+      DocFile1: [null],
+      DocType2: [''],
+      DocFile2: [null],
+      DocType3: [''],
+      DocFile3: [null]
     });
   }
 
   get f() { return this.enquiryForm.controls; }
 
-  onFileChange(event: any) {
+  onFileChange(event: any, index: number) {
     if (event.target.files && event.target.files.length) {
       const [file] = event.target.files;
       if (!file.type.startsWith('image')) {
-        this.enquiryForm.get('DocFile').setErrors({ required: true });
+        this.enquiryForm.get(`DocFile${index}`).setErrors({ required: true });
       } else {
-        this.enquiryForm.patchValue({ DocFile: file });
+        this.enquiryForm.patchValue({ [`DocFile${index}`]: file });
       }
     }
   }
@@ -100,14 +107,21 @@ export class EnquirerUpdateComponent implements OnInit {
 
         this.service.getDocumentidbyEnquiryId(this.enqid).subscribe((docIds: any) => {
           if (docIds && docIds.length > 0) {
+            let index=1;
             docIds.forEach((docId: number) => {
               this.service.getDocument(docId).subscribe((docResponse: any) => {
-                console.log(docResponse);
+          
                 if (docResponse) {
-                  this.imageData = docResponse['imageData'];
-                  this.documentModel = docResponse.docModel;
-                  this.enquiryForm.patchValue({ DocType: docResponse['docModel']['docType'] });
+         console.log(docResponse.docModel)
+                  this.documentModels.push(docResponse['docModel']); 
+                  this.imageData.push(docResponse['imageData']);
+                  this.enquiryForm.patchValue({ [`DocType${index}`]: this.documentModels[index-1].docType  });
+                 //  this.enquiryForm.patchValue({ [`docFile${index}`]: this.imageData[index]  });
+                  // this.documentModel = docResponse.docModel; 
+                // this.enquiryForm.patchValue({ DocType: docResponse['docModel']['docType'] });
+index++;
                 }
+                console.log(this.documentModels);
               }, (error: any) => {
                 console.error('Error fetching document:', error);
               });
@@ -120,9 +134,7 @@ export class EnquirerUpdateComponent implements OnInit {
     });
   }
 
-
   submit() {
-    // Update enquiry
     this.enquirerModel = {
       EnquiryId: this.f.EnquiryId.value,
       InitialBalance: this.f.InitialBalance.value,
@@ -148,46 +160,31 @@ export class EnquirerUpdateComponent implements OnInit {
       GuardianAadhaar: this.f.GuardianAadhaar.value,
       IsActive: this.f.IsActive.value
     };
-  
-    this.isLoading = true;
-  
-    // Update enquiry
-    this.service.updateEnquiry(this.enquirerModel).subscribe((enquiryResponse: any) => {
-      // Handle success response
-      this.isLoading = false;
-  
-      // Update documents
-      this.service.getDocumentidbyEnquiryId(this.enquirerModel.EnquiryId).subscribe((docIds: any) => {
-        if (docIds && docIds.length > 0) {
-          docIds.forEach((docId: number) => {
-            this.service.getDocument(docId).subscribe((docResponse: any) => {
-              if (docResponse) {
-      
-                const updatedDocumentModel: DocModel = {
-                  DocId: docResponse['docModel']['docId'],
-                  EnqId: docResponse['docModel']['enqId'],
-                  CustId: docResponse['docModel']['custId'],
-                  DocType: this.enquiryForm.get('DocType').value,
-                  IsApproved: docResponse['docModel']['isApproved'],
-                  DocFile: this.enquiryForm.get('DocFile').value
-                };
 
-                // Update document
-                this.service.updateDocument(updatedDocumentModel).subscribe(() => {
-                
-                }, (error: any) => {
-                  console.error('Error updating document:', error);
-                });
-              }
-            }, (error: any) => {
-              console.error('Error fetching document:', error);
-            });
-          });
-        }
-      }, (error: any) => {
-        console.error('Error fetching document IDs:', error);
+    this.isLoading = true;
+
+    this.service.updateEnquiry(this.enquirerModel).subscribe((enquiryResponse: any) => {
+      this.isLoading = false;
+
+      // Update documents 
+      this.documentModels.forEach((docModel, index) => {
+        // Update document if there are changes in the form
+        const updatedDocumentModel: DocModel = {
+          docId: docModel.docId,
+          enqId: docModel.enqId,
+          custId: docModel.custId,
+          docType: this.enquiryForm.get('DocType'+(index+1))?.value || docModel.docType, // Get DocType from form or use existing value
+          isApproved: docModel.isApproved,
+          docFile: this.enquiryForm.get('DocFile'+(index+1)).value  // Get DocFile from form if available
+        };
+console.log(updatedDocumentModel.docFile)
+        this.service.updateDocument(updatedDocumentModel).subscribe(() => {
+          // Handle success for each document update 
+        }, (error: any) => {
+          console.error('Error updating document:', error);
+        });
       });
-  
+
     }, (error: any) => {
       console.error('Error updating enquiry:', error);
       this.isLoading = false;

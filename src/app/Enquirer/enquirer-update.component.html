@@ -99,19 +99,45 @@
                 <label for="IsActive">Is Active</label>
                 <input type="number" id="IsActive" formControlName="IsActive" class="form-control">
             </div>
-            <div class="form-group">
-                <label for="DocType">Document Type</label>
-                <input type="text" id="DocType" formControlName="DocType" class="form-control">
-              </div>
-              
-              <div class="form-group">
-                <label for="DocFile">Upload Document</label>
-                <input type="file" id="DocFile" formControlName="DocFile" class="form-control-file" (change)="onFileChange($event)">
-              </div>
-              
-              <div class="form-group">
-                <img [src]="imageData" *ngIf="imageData" width="200" height="150">
-              </div>
+
+          
+                <div class="form-group">
+                    <label for="DocType1">Document Type 1</label>
+                    <input type="text" id="DocType1" formControlName="DocType1" class="form-control">
+                  </div>
+                  
+                  <div class="form-group">
+                    <label for="DocFile1">Upload Document 1</label>
+                    <input type="file" id="DocFile1" formControlName="DocFile1" class="form-control-file" (change)="onFileChange($event, 1)">
+                  </div>
+                  <div class="form-group">
+                    <img [src]="imageData[0]" *ngIf="imageData[0]" width="200" height="150">
+                  </div>
+                  <div class="form-group">
+                    <label for="DocType2">Document Type 2</label>
+                    <input type="text" id="DocType2" formControlName="DocType2" class="form-control">
+                  </div>
+                  
+                  <div class="form-group">
+                    <label for="DocFile2">Upload Document 2</label>
+                    <input type="file" id="DocFile2" formControlName="DocFile2" class="form-control-file" (change)="onFileChange($event, 2)">
+                  </div>
+                  <div class="form-group">
+                    <img [src]="imageData[1]" *ngIf="imageData[1]" width="200" height="150">
+                  </div>
+                  <div class="form-group">
+                    <label for="DocType3">Document Type 3</label>
+                    <input type="text" id="DocType3" formControlName="DocType3" class="form-control">
+                  </div>
+                  
+                  <div class="form-group">
+                    <label for="DocFile3">Upload Document 3</label>
+                    <input type="file" id="DocFile3" formControlName="DocFile3" class="form-control-file" (change)="onFileChange($event, 3)">
+                  </div>
+                <div class="form-group">
+                  <img [src]="imageData[2]" *ngIf="imageData[2]" width="200" height="150">
+                </div>
+        
    
             <div class="form-group text-center">
                 <button type="submit" [disabled]="isLoading" class="btn btn-sm btn-outline-success mx-1">Update</button>

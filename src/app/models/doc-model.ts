@@ -1,10 +1,10 @@
 export class DocModel {
-    constructor(    public DocId: number = 0,
-        public EnqId: number = 0,
-        public CustId: number = 0,
-        public DocType: string = '',
-        public IsApproved: boolean = false,
-        public DocFile: File | null = null,){}
+    constructor(    public docId: number = 0,
+        public enqId: number = 0,
+        public custId: number = 0,
+        public docType: string = '',
+        public isApproved: boolean = false,
+        public docFile: File | null = null,){}
 
   }
 

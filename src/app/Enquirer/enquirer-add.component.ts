@@ -103,13 +103,14 @@ export class EnquirerAddComponent {
       const docFileControlName = `DocFile${i}`;
 
       const docModel: DocModel = {
-        DocId: 0,
-        EnqId: 0, // Will be updated later
-        CustId: 0, // Update if necessary
-        DocType: this.enquiryForm.get(docTypeControlName).value,
-        IsApproved: false,
-        DocFile: this.enquiryForm.get(docFileControlName).value
+        docId: 0,
+        enqId: 0, // Will be updated later
+        custId: 0, // Update if necessary
+        docType: this.enquiryForm.get(docTypeControlName).value,
+        isApproved: false,
+        docFile: this.enquiryForm.get(docFileControlName).value
       };
+console.log(docModel)
 
       this.documentModel.push(docModel);
     }
@@ -122,7 +123,7 @@ export class EnquirerAddComponent {
 
         // Update each document model with the generated enquiry ID
         this.documentModel.forEach((docModel, index) => {
-          docModel.EnqId = enquiryId;
+          docModel.enqId = enquiryId;
 
           // Upload each document
           this.service.uploadDocument(docModel).subscribe(() => {
